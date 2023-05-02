@@ -20,7 +20,8 @@ namespace motion {
                       const Scalar& t) {
             // Compute the coefficients of the quintic polynomial.
             if (t <= static_cast<Scalar>(1e-5)) {
-                throw std::logic_error("QuinticSpline invalid duration");
+
+                throw std::logic_error("QuinticSpline invalid duration: " + std::to_string(t));
             }
             const Scalar t2 = t * t;
             const Scalar t3 = t2 * t;
