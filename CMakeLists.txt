@@ -23,9 +23,11 @@ find_package(Catch2 2.13 REQUIRED)
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 find_package(TinyXML2 REQUIRED)
 find_package(NLopt REQUIRED)
+find_package(matplotlib_cpp REQUIRED)
 
 # Libraries
-set(LIBS Eigen3::Eigen tinyxml2::tinyxml2 ${NLOPT_LIBRARIES})
+set(LIBS Eigen3::Eigen tinyxml2::tinyxml2 ${NLOPT_LIBRARIES}
+         matplotlib_cpp::matplotlib_cpp)
 
 # Target names
 set(TARGET_LIB motion_lib)

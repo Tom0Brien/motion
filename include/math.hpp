@@ -1,5 +1,5 @@
-#ifndef motion_MATH_HPP
-#define motion_MATH_HPP
+#ifndef MOTION_MATH_HPP
+#define MOTION_MATH_HPP
 
 #include <Eigen/Core>
 #include <Eigen/Geometry>
@@ -224,6 +224,8 @@ namespace motion {
         }
         return e;
     }
+
+
 }  // namespace motion
 
 #endif
