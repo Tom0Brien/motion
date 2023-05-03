@@ -17,8 +17,10 @@ namespace motion {
         // Add waypoint for the specified dimension
         void add_waypoint(TrajectoryDimension dimension,
                           Scalar timepoint,
-                          const Eigen::Matrix<Scalar, 3, 1>& waypoint) {
-            waypoints[dimension].push_back(waypoint);
+                          const Scalar position,
+                          const Scalar velocity     = 0,
+                          const Scalar acceleration = 0) {
+            waypoints[dimension].push_back(Eigen::Matrix<Scalar, 3, 1>(position, velocity, acceleration));
             timepoints[dimension].push_back(timepoint);
             build_splines_for_dimension(dimension);
         }
@@ -31,6 +33,16 @@ namespace motion {
         /// @brief Get orientation (roll,pitch,yaw) at a given time
         Eigen::Matrix<Scalar, 3, 1> orientation(Scalar time) const {
             return Eigen::Matrix<Scalar, 3, 1>(eval(ROLL, time), eval(PITCH, time), eval(YAW, time));
+        }
+
+        /// @brief Get pose at a given time
+        Eigen::Transform<Scalar, 3, Eigen::Isometry> pose(Scalar time) const {
+            Eigen::Transform<Scalar, 3, Eigen::Isometry> pose;
+            pose.translation() = position(time);
+            pose.linear()      = Eigen::AngleAxis<Scalar>(orientation(time)(2), Eigen::Matrix<Scalar, 3, 1>::UnitZ())
+                            * Eigen::AngleAxis<Scalar>(orientation(time)(1), Eigen::Matrix<Scalar, 3, 1>::UnitY())
+                            * Eigen::AngleAxis<Scalar>(orientation(time)(0), Eigen::Matrix<Scalar, 3, 1>::UnitX());
+            return pose;
         }
 
         /// @brief Clear all splines, waypoints, and timepoints for all dimensions
